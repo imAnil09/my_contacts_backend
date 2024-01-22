@@ -3,9 +3,8 @@ const {
   registerUser,
   loginUser,
   currentUser,
-  message
 } = require("../contollers/userController");
-router.get('/', message);
+
 const validateAccessToken = require("../middleWare/validateAccessToken");
 
 const router = express.Router();
