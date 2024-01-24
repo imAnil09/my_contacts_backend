@@ -3,4 +3,6 @@ export const BASE_URL_USERS = 'http://localhost:5001/api/users'
 export const LOGIN = '/login';
 export const SIGNUP = '/signup';
 export const HOME = '/';
-// export const 
+export const PROFILE = '/profile'
+export const CONTACTS = '/contacts'
+export const CREATE_CONTACT = '/new'

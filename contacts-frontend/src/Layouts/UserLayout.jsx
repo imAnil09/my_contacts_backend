@@ -1,10 +1,11 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { LOGIN } from "../ConstantLinks";
+import Home from "../Pages/Home";
+import { HOME, LOGIN } from "../ConstantLinks";
 import { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
-const ProtectedLayout = () => {
+const UserLayout = () => {
     const navigate = useNavigate();
     const [AuthReducer, setAuthReducer] = useState('');
 
@@ -16,17 +17,18 @@ const ProtectedLayout = () => {
 
       }
     }, []);
-return AuthReducer ?
+return !AuthReducer ?  (
     <div className="flex flex-col min-h-screen">
         <Navbar />
-    <main className="flex-grow">
-        <Outlet />
-    </main>
-        <Footer />
+        <main className="flex-grow">
+        {/* Your main content goes here */}
+    <Outlet />
+      </main>
+    <Footer />
     </div>
- : (
-    navigate(LOGIN)
+) : (
+    navigate(HOME)
 )
 }
 
-export default ProtectedLayout;
+export default UserLayout;
