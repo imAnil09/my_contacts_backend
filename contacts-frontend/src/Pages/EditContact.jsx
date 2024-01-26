@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { BASE_URL_CONTACTS, CONTACTS, HOME } from '../ConstantLinks';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 
 export default function EditContact() {
 
@@ -14,8 +15,10 @@ export default function EditContact() {
     
     const { id } = useParams();
     
+    const accessToken = useSelector((state) => state?.accessToken)
+
+    
     useEffect(() => {
-      const accessToken = JSON.parse(localStorage.getItem('accessToken'));
       const requestOptions = {
         method: 'GET',
         headers: {
@@ -23,7 +26,6 @@ export default function EditContact() {
         },
       };
       fetch(BASE_URL_CONTACTS + '/'+id, requestOptions).then(res => res.json()).then(data => {
-        console.log(data, 'editFormData')
         setName(data?.name)
         setEmail(data?.email)
         setMobile(data?.phone)
@@ -35,7 +37,7 @@ export default function EditContact() {
     const handleSubmit = async (event) => {
         event.preventDefault();
     
-    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+
 
           fetch(`${BASE_URL_CONTACTS}/${id}`, {
             method: 'PUT',

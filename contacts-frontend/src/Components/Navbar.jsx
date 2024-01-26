@@ -3,7 +3,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, useNavigate } from 'react-router-dom'
 import { ABOUT, CONTACTS, CREATE_CONTACT, HELP_AND_SUPPORT, HOME, LOGIN } from '../ConstantLinks'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
@@ -19,12 +19,13 @@ function classNames(...classes) {
 
 const Navbar = () => {
   const accessToken = useSelector((state) => state?.accessToken)
+  const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleLogout = () => {
       dispatch({
-        type:'accessToken',
-        payload: ''
-      })
+        type: 'resetAccessToken',
+      });
+      console.log("resetted")
         navigate(LOGIN)
       }
 

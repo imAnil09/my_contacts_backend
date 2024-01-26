@@ -43,8 +43,7 @@ const ContactsPage = () => {
       } catch (error) {
         console.log('error', error);
         dispatch({
-          type:'accessToken',
-          payload: ''
+          type: 'resetAccessToken',
         })
         navigate(LOGIN)
       }

@@ -6,12 +6,11 @@ import toast from 'react-hot-toast';
 
 const ContactsList = ({ contacts }) => {
 
-  const navigate = useNavigate();
   const contactsList = useSelector((state) => state.contacts);
   const dispatch = useDispatch();
 
+  const accessToken = useSelector((state) => state?.accessToken)
   const handleDelete = (Id) => {
-    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
     fetch(BASE_URL_CONTACTS+'/'+Id, {
       method: 'DELETE',
       headers: {
@@ -42,7 +41,7 @@ const ContactsList = ({ contacts }) => {
           </div>
           <div className='flex flex-col h-10 justify-center items-center'>
             <div className='flex gap-3'>
-            <Link to={EDIT_CONTACT+'/'+ contact?._id} className='text-gray-300 bg-gray-700 cursor-pointer rounded-md px-3 py-2 text-sm font-medium'>Edit</Link>
+            <Link to={EDIT_CONTACT+'/'+contact?._id} className='text-gray-300 bg-gray-700 cursor-pointer rounded-md px-3 py-2 text-sm font-medium'>Edit</Link>
             <button onClick={() => handleDelete(contact?._id)} className='text-gray-300 bg-gray-700 cursor-pointer rounded-md px-3 py-2 text-sm font-medium'>Delete</button>
             </div>
           </div>
