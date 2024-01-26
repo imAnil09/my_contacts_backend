@@ -1,16 +1,15 @@
 {
-    "version": 2,
     "builds": [
       {
-        "src": "your-build-script.sh",
+        "src": "dist/**",
         "use": "@vercel/node"
       }
     ],
-    "env": {
-      "CI": "1"
-    },
-    "scripts": {
-      "preinstall": "npm install --legacy-peer-deps"
-    }
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/dist/$1"
+      }
+    ]
   }
   
