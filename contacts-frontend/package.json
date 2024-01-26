@@ -5,7 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": {
+      "env": {
+        "CI": "1"
+      },
+      "scripts": {
+        "preinstall": "npm install --legacy-peer-deps"
+      }
+    },
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
