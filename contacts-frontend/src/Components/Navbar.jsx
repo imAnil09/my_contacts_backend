@@ -1,8 +1,9 @@
-import { Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useNavigate } from 'react-router-dom'
-import { CONTACTS, LOGIN } from '../ConstantLinks'
+import { Link, useNavigate } from 'react-router-dom'
+import { ABOUT, CONTACTS, CREATE_CONTACT, HELP_AND_SUPPORT, HOME, LOGIN } from '../ConstantLinks'
+import { useSelector } from 'react-redux'
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
@@ -16,11 +17,14 @@ function classNames(...classes) {
 
 
 
-
-export default function Navbar() {
+const Navbar = () => {
+  const accessToken = useSelector((state) => state?.accessToken)
     const navigate = useNavigate();
     const handleLogout = () => {
-        localStorage.removeItem('accessToken');
+      dispatch({
+        type:'accessToken',
+        payload: ''
+      })
         navigate(LOGIN)
       }
 
@@ -45,40 +49,40 @@ export default function Navbar() {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                   <img
-                    className="h-8 w-auto"
+                    onClick={() => navigate(HOME)}
+                    className="h-8 w-auto cursor-pointer"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                     alt="Your Company"
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <a
+                    {accessToken !== "" && navigation.map((item) => (
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
+                        onClick={() => scrollTo(0, 0)}
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium'
                         )}
-                        aria-current={item.current ? 'page' : undefined}
+                        // aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
               </div>
+              {accessToken !== '' ? 
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                {/* <div></div> */}
                 <div className="flex space-x-4 mr-4">
-                      <a
-                        // key={item.name}
-                        href='new'
+                      <Link
+                        to={CREATE_CONTACT}
                         className={'text-gray-300 cursor-pointer hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'}
-                        // aria-current={item.current ? 'page' : undefined}
                       >
                         {'+ Add Contact'}
-                      </a>
+                      </Link>
                   </div>
                 <button
                   type="button"
@@ -89,7 +93,6 @@ export default function Navbar() {
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
 
-                {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -114,22 +117,22 @@ export default function Navbar() {
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="/"
+                          <Link
+                            to={HOME}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Your Profile
-                          </a>
+                          </Link>
                         )}
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="contacts"
+                          <Link
+                            to={CONTACTS}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             My Contacts
-                          </a>
+                          </Link>
                         )}
                       </Menu.Item>
                       <Menu.Item>
@@ -146,12 +149,14 @@ export default function Navbar() {
                   </Transition>
                 </Menu>
               </div>
+              : 
+              <Link to={HELP_AND_SUPPORT} className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'>Help & Support</Link>}
             </div>
           </div>
 
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
-              {navigation.map((item) => (
+              {accessToken !== "" && navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
                   as="a"
@@ -172,3 +177,5 @@ export default function Navbar() {
     </Disclosure>
   )
 }
+
+export default React.memo(Navbar);

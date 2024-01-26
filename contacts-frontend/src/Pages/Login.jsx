@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { BASE_URL_USERS, HOME } from '../ConstantLinks';
-import {useNavigate} from 'react-router-dom';
+import { BASE_URL_USERS, HOME, SIGNUP } from '../ConstantLinks';
+import {Link, useNavigate} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,7 +33,12 @@ const Login = () => {
       const result = await response.json();
       console.log('Response data:', result);
       // localStorage.setItem('accessToken', result?.accessToken)
-      localStorage.setItem('accessToken', JSON.stringify(result?.accessToken));
+      // localStorage.setItem('accessToken', JSON.stringify(result?.accessToken));
+      dispatch({
+        type:'accessToken',
+        payload: result?.accessToken
+      })
+      scrollTo(0, 0)
       navigate(HOME)
 
       // Handle successful login, store token, redirect, etc.
@@ -79,7 +86,7 @@ const Login = () => {
     </form>
 
     <p className="mt-10 text-center text-sm text-gray-500">
-      Not a member?
+      Not a member?<Link to={SIGNUP} onClick={() => scrollTo(0, 0)} className='font-medium text-blue-300'> SignUp</Link> here
       {/* <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</a> */}
     </p>
   </div>

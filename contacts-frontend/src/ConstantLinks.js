@@ -6,3 +6,6 @@ export const HOME = '/';
 export const PROFILE = '/profile'
 export const CONTACTS = '/contacts'
 export const CREATE_CONTACT = '/new'
+export const EDIT_CONTACT = '/edit'
+export const ABOUT = '/about'
+export const HELP_AND_SUPPORT = '/help-and-support'

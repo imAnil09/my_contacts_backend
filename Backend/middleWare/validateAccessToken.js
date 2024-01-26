@@ -12,7 +12,7 @@ const validateAccessToken = asyncHandler(async (req, res, next) => {
 
     jwt.verify(token, process.env.ACCESS_TOCKEN_SECRET, (err, decoded) => {
       if (err) {
-        res.status(401);
+        res.status(401).send('Token Expired');
         throw new Error("User is not authorized");
       }
 

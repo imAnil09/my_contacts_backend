@@ -18,6 +18,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const userAvailable = await User.findOne({ email });
 
   if (userAvailable) {
+    res.status(400)
     throw new Error("User already registered!");
   }
 
@@ -67,7 +68,7 @@ const loginUser = asyncHandler(async (req, res) => {
         },
       },
       process.env.ACCESS_TOCKEN_SECRET, // Signature_Secret_Key
-      { expiresIn: "15m" } // expiration time of the accessToken
+      { expiresIn: "10s" } // expiration time of the accessToken
     );
     res.status(200).json({ accessToken });
   } else {

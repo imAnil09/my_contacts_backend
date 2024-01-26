@@ -1,21 +1,13 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { LOGIN } from "../ConstantLinks";
-import { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import { useSelector } from "react-redux";
 
 const ProtectedLayout = () => {
-    const navigate = useNavigate();
-    const [AuthReducer, setAuthReducer] = useState('');
+    
+    const AuthReducer = useSelector((state) => state?.accessToken)
 
-    useEffect(() => {
-      const accessToken = JSON.parse(localStorage.getItem('accessToken'));
-      if (accessToken) {
-        setAuthReducer(accessToken);
-        console.log(accessToken, 'accessToken')
-
-      }
-    }, []);
 return AuthReducer ?
     <div className="flex flex-col min-h-screen">
         <Navbar />
@@ -25,7 +17,7 @@ return AuthReducer ?
         <Footer />
     </div>
  : (
-    navigate(LOGIN)
+    <Navigate to={LOGIN} />
 )
 }
 

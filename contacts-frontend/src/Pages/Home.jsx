@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { BASE_URL_CONTACTS, BASE_URL_USERS, LOGIN } from '../ConstantLinks';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [data, setData] = useState();
+  const accessToken = useSelector((state) => state?.accessToken)
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchFunction = async () => {
-      const accessToken = JSON.parse(localStorage.getItem('accessToken'));
       try {
         const response = await fetch(`${BASE_URL_USERS}/current`, {
           method: 'GET',
@@ -23,6 +29,11 @@ const Home = () => {
         console.log('Response data:', result);
       } catch (error) {
         console.error('Error:', error.message);
+        dispatch({
+          type:'accessToken',
+          payload: ''
+        })
+        navigate(LOGIN)
       }
     };
 

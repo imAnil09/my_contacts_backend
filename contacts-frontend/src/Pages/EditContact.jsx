@@ -1,30 +1,44 @@
 import { UserCircleIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
-import { BASE_URL_CONTACTS, CONTACTS, HOME, LOGIN } from '../ConstantLinks';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { BASE_URL_CONTACTS, CONTACTS, HOME } from '../ConstantLinks';
+import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
 
-export default function NewContact() {
+export default function EditContact() {
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [mobile, setMobile] = useState('');
-    const accessToken = useSelector((state) => state?.accessToken)
+    
+    const { id } = useParams();
+    
+    useEffect(() => {
+      const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+      const requestOptions = {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+      };
+      fetch(BASE_URL_CONTACTS + '/'+id, requestOptions).then(res => res.json()).then(data => {
+        console.log(data, 'editFormData')
+        setName(data?.name)
+        setEmail(data?.email)
+        setMobile(data?.phone)
+      }).catch(err => {
+        navigate(CONTACTS)
+      })
+    }, [id])
     
     const handleSubmit = async (event) => {
         event.preventDefault();
     
-        console.log({email, mobile, name}, "useData")
+    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
 
-
-    
-        try {
-          const response = await fetch(`${BASE_URL_CONTACTS}/`, {
-            method: 'POST',
+          fetch(`${BASE_URL_CONTACTS}/${id}`, {
+            method: 'PUT',
             headers: {
             Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
@@ -34,24 +48,18 @@ export default function NewContact() {
                 email, 
                 phone:mobile 
             }),
-          });
-    
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          
-          const result = await response.json();
-          console.log('Response data:', result);
-          toast.success('Sucessfully created contact')
-          navigate(CONTACTS)
-        } catch (error) {
-          console.error('Error:', error.message);
-          dispatch({
-            type:'accessToken',
-            payload: ''
+          }).then((res) => {
+           return res.json()
           })
-          navigate(LOGIN)
-        }
+          .then(data => {
+            toast.success('Successfully edited contact')
+            navigate(CONTACTS)
+            if (!data?.ok) {
+              throw new Error(`HTTP error! Status: ${data?.status}`);
+            }
+          }).catch(error => {
+            console.log('Error:'+ error)
+          })
       };
     
   return (
@@ -59,7 +67,7 @@ export default function NewContact() {
       <form className="w-full max-w-md py-10" onSubmit={handleSubmit}>
         <div className="space-y-8">
           <div>
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Create new contact</h2>
+            <h2 className="text-base font-semibold leading-7 text-gray-900">Edit contact</h2>
 
             <div className="mt-4 flex flex-col gap-4">
             <div className="sm:col-span-4">
@@ -72,6 +80,7 @@ export default function NewContact() {
                   required
                   name="name"
                   id="name"
+                  value={name}
                   autoComplete="name"
                   onChange={(e) => setName(e.target.value)}
                   className="block w-full px-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -89,6 +98,7 @@ export default function NewContact() {
                   type="email"
                   required
                   name="email"
+                  value={email}
                   id="email"
                   autoComplete="email"
                   onChange={(e) => setEmail(e.target.value)}
@@ -108,6 +118,7 @@ export default function NewContact() {
                   required
                   name="mobile"
                   id="mobile"
+                  value={mobile}
                   autoComplete="tel"
                   onChange={(e) => setMobile(e.target.value)}
                   className="block w-full rounded-md px-4 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

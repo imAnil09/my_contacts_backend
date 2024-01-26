@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { BASE_URL_CONTACTS } from '../ConstantLinks';
+import { BASE_URL_CONTACTS, LOGIN } from '../ConstantLinks';
 import ContactsList from '../Components/ContactsList';
+import NoPageFound from './NoPageFound';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const ContactsPage = () => {
   const [AuthReducer, setAuthReducer] = useState('');
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const contacts = useSelector((state) => state.contacts);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+    setData(contacts)
+  }, [contacts])
+  
+  const accessToken = useSelector((state) => state?.accessToken)
+  useEffect(() => {
 
     const fetchContacts = async () => {
       try {
@@ -25,33 +35,33 @@ const ContactsPage = () => {
         }
 
         const result = await response.json();
-        setData(result);
-        console.log(result, 'contacts');
+        // Dispatching action
+        dispatch({
+          type: 'contactsList',  // Make sure it matches the reducer key
+          payload: [...result],
+        });
       } catch (error) {
         console.log('error', error);
+        dispatch({
+          type:'accessToken',
+          payload: ''
+        })
+        navigate(LOGIN)
       }
     };
 
-    if (accessToken) {
-      setAuthReducer(accessToken);
-      console.log(accessToken, 'accessToken');
 
       // Call the fetchContacts function
       fetchContacts();
-    }
-  }, [AuthReducer]);
+    }, []);
 
   return (
-    <div>
-      <h1>ContactsPage</h1>
-      {/* Render your contacts data as needed */}
-      {/* <ul>
-        {data.map((contact) => (
-          <li key={contact.id}>{contact.name}</li>
-        ))}
-      </ul> */}
+    <div className='p-4 flex flex-col gap-6 mb-10'>
+      <div className='font-bold text-2xl'>My Contacts</div>
+      {data?.length > 0 ?
       <ContactsList contacts={data} />
-    </div>
+      : <NoPageFound head={' '} title={"Contacts Not Found"} description={'Please create your contacts by clicking on below create contact button'} />
+    }</div>
   );
 };
 
