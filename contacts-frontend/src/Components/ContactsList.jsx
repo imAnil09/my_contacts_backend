@@ -34,9 +34,9 @@ const ContactsList = ({ contacts }) => {
     <ul className="flex flex-col gap-4">
       {contacts.map((contact) => (
         <li key={contact.id} className="bg-white flex justify-between items-center w-full shadow-md rounded-md p-4">
-            <div>
+            <div className='w-[10rem]'>
           <h2 className="text-lg font-bold">{contact.name}</h2>
-          <p className="text-gray-600">{contact.email}</p>
+          <p className="text-gray-600 text-ellipsis overflow-hidden ...">{contact.email}</p>
           <p className="text-gray-600">{contact.phone}</p>
           </div>
           <div className='flex flex-col h-10 justify-center items-center'>

@@ -2,7 +2,7 @@ import React from 'react';
 
 const About = () => {
   return (
-   <div className="container mx-auto p-4">
+   <div className="container max-w-7xl mx-auto min-h-[80vh] p-5">
       <h1 className="text-3xl font-bold mb-4">About Our Contact Application</h1>
       <p className="mb-4">
         Welcome to our Contact Application! We are dedicated to providing a

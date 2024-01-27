@@ -8,7 +8,9 @@ export const ContactsList = createReducer(initialState, (builder) => {
     .addCase('contactsList', (state, action) => {
       return action.payload;
     })
-    // Add other cases if needed
+    .addCase('resetContactsList', (state, action) => {
+      return initialState;
+    })
     .addDefaultCase((state) => {
       return state;
     });

@@ -55,11 +55,11 @@ export default function NewContact() {
       };
     
   return (
-    <div className="flex flex-col items-center justify-center h-full">
-      <form className="w-full max-w-md py-10" onSubmit={handleSubmit}>
+    <div className="mx-auto max-w-7xl py-10  flex justify-center min-h-[80vh] px-5">
+      <form className="w-full max-w-lg" onSubmit={handleSubmit}>
         <div className="space-y-8">
           <div>
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Create new contact</h2>
+            <h2 className="text-lg font-semibold leading-7 text-gray-900">Create new contact</h2>
 
             <div className="mt-4 flex flex-col gap-4">
             <div className="sm:col-span-4">

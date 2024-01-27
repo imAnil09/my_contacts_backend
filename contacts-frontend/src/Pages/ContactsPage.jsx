@@ -55,8 +55,8 @@ const ContactsPage = () => {
     }, []);
 
   return (
-    <div className='p-4 flex flex-col gap-6 mb-10'>
-      <div className='font-bold text-2xl'>My Contacts</div>
+    <div className='mx-auto max-w-7xl p-5 flex flex-col gap-6 min-h-[80vh]'>
+      <div className='text-2xl font-bold leading-'>My Contacts</div>
       {data?.length > 0 ?
       <ContactsList contacts={data} />
       : <NoPageFound head={' '} title={"Contacts Not Found"} description={'Please create your contacts by clicking on below create contact button'} />

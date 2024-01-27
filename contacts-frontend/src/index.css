@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.elipsis {
+        white-space: nowrap; 
+        width: 20rem; 
+        overflow: hidden;
+        text-overflow: ellipsis; 
+}
+
+.hide-scrollbar ::-webkit-scrollbar {
+        display: none;
+}
