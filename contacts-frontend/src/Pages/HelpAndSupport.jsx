@@ -13,7 +13,7 @@ const HelpAndSupport = () => {
   const encodedMessage = encodeURIComponent(preFilledMessage);
 
   // Use `window.open` to open the user's default email client with a pre-filled message
-  window.open(`mailto:support@example.com?subject=Support Request&body=${encodedMessage}`, '_blank');
+  window.open(`mailto:bosianil09@gmail.com?subject=Support Request&body=${encodedMessage}`, '_blank');
       };
     
       return (
