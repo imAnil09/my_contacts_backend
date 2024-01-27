@@ -26,7 +26,6 @@ const Navbar = () => {
       dispatch({
         type: 'resetContactsList',
       });
-      console.log("resetted")
         navigate(LOGIN)
       }
 

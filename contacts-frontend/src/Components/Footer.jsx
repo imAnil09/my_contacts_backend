@@ -4,11 +4,15 @@ import { RiInstagramLine, RiTwitterXFill } from "react-icons/ri";
 import { FaInstagram } from "react-icons/fa";
 import { ABOUT, CONTACTS, HOME } from '../ConstantLinks';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Footer = () => {
+  const AuthReducer = useSelector((state) => state?.accessToken)
+
   return (
     <footer className="bg-gray-800 text-white px-5 py-10">
-      <div className="container mx-auto flex flex-col lg:items-start flex-wrap gap-5 lg:flex-row justify-around">
+      {AuthReducer &&
+      <div className="container mx-auto max-w-7xl flex flex-col lg:items-start flex-wrap gap-5 lg:flex-row justify-between">
         <div className="footer-section">
           <h2 className="text-lg font-bold">Contact Us</h2>
           <p>Email: bosianil09@gmail.com</p>
@@ -40,6 +44,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+}
 
       <div className="text-center mt-8">
         <p>&copy; 2024 MyContact. All rights reserved.</p>

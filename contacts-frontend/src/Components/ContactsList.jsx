@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { BASE_URL_CONTACTS, CONTACTS, EDIT_CONTACT } from '../ConstantLinks';
+import { Link } from 'react-router-dom';
+import { BASE_URL_CONTACTS, EDIT_CONTACT } from '../ConstantLinks';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 
@@ -31,9 +31,9 @@ const ContactsList = ({ contacts }) => {
     })
   }
   return (
-    <ul className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       {contacts.map((contact) => (
-        <li key={contact.id} className="bg-white flex justify-between items-center w-full shadow-md rounded-md p-4">
+        <div key={contact.id} className="bg-white flex justify-between items-center w-full shadow-md rounded-md p-4">
             <div className='w-[10rem]'>
           <h2 className="text-lg font-bold">{contact.name}</h2>
           <p className="text-gray-600 text-ellipsis overflow-hidden ...">{contact.email}</p>
@@ -46,9 +46,9 @@ const ContactsList = ({ contacts }) => {
             </div>
           </div>
           {/* Add more details or customize as needed */}
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 

@@ -2,17 +2,18 @@ import React, { useState } from 'react'
 import { BASE_URL_USERS, HOME, SIGNUP } from '../ConstantLinks';
 import {Link, useNavigate} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    console.log({email, password}, "useData")
+    setLoading(true)
 
     try {
       const response = await fetch(`${BASE_URL_USERS}/login`, {
@@ -31,13 +32,11 @@ const Login = () => {
       }
 
       const result = await response.json();
-      console.log('Response data:', result);
-      // localStorage.setItem('accessToken', result?.accessToken)
-      // localStorage.setItem('accessToken', JSON.stringify(result?.accessToken));
       dispatch({
         type:'accessToken',
         payload: result?.accessToken
       })
+      setLoading(false)
       scrollTo(0, 0)
       navigate(HOME)
 
@@ -80,7 +79,7 @@ const Login = () => {
           type="submit"
           className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Sign in
+          {loading ? <AiOutlineLoading3Quarters className='animate-spin' size={'18px'} /> : 'Sign in'}
         </button>
       </div>
     </form>

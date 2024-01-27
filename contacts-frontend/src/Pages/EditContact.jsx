@@ -1,5 +1,5 @@
 import { UserCircleIcon } from '@heroicons/react/24/solid';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BASE_URL_CONTACTS, CONTACTS, HOME } from '../ConstantLinks';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -12,6 +12,7 @@ export default function EditContact() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [mobile, setMobile] = useState('');
+    const [loading, setLoading] = useState(true);
     
     const { id } = useParams();
     
@@ -29,6 +30,7 @@ export default function EditContact() {
         setName(data?.name)
         setEmail(data?.email)
         setMobile(data?.phone)
+        setLoading(false)
       }).catch(err => {
         navigate(CONTACTS)
       })
@@ -37,8 +39,6 @@ export default function EditContact() {
     const handleSubmit = async (event) => {
         event.preventDefault();
     
-
-
           fetch(`${BASE_URL_CONTACTS}/${id}`, {
             method: 'PUT',
             headers: {
@@ -65,7 +65,12 @@ export default function EditContact() {
       };
     
   return (
-    <div className="mx-auto max-w-7xl flex justify-center py-10 min-h-[80vh] px-5">
+    <React.Fragment>
+   {loading ? (
+        <div className="flex items-center justify-center min-h-[80vh]">
+        <p className='font-bold text-2xl'>Loading...</p>
+      </div>
+      ) : <div className="mx-auto max-w-7xl flex justify-center py-10 min-h-[80vh] px-5">
       <form className="w-full max-w-lg" onSubmit={handleSubmit}>
         <div className="space-y-8">
           <div>
@@ -143,6 +148,7 @@ export default function EditContact() {
           
         </div>
       </form>
-    </div>
+    </div>}
+    </React.Fragment>
   );
 }

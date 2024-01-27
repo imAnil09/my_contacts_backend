@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const ContactsPage = () => {
-  const [AuthReducer, setAuthReducer] = useState('');
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const contacts = useSelector((state) => state.contacts);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setData(contacts)
@@ -40,6 +40,7 @@ const ContactsPage = () => {
           type: 'contactsList',  // Make sure it matches the reducer key
           payload: [...result],
         });
+        setLoading(false);
       } catch (error) {
         console.log('error', error);
         dispatch({
@@ -49,7 +50,6 @@ const ContactsPage = () => {
       }
     };
 
-
       // Call the fetchContacts function
       fetchContacts();
     }, []);
@@ -57,7 +57,11 @@ const ContactsPage = () => {
   return (
     <div className='mx-auto max-w-7xl p-5 flex flex-col gap-6 min-h-[80vh]'>
       <div className='text-2xl font-bold leading-'>My Contacts</div>
-      {data?.length > 0 ?
+      {loading ? (
+        <div className="flex items-center justify-center min-h-[60vh]">
+        <p className='font-bold text-2xl'>Loading...</p>
+      </div>
+      ) : data?.length > 0 ?
       <ContactsList contacts={data} />
       : <NoPageFound head={' '} title={"Contacts Not Found"} description={'Please create your contacts by clicking on below create contact button'} />
     }</div>

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { BASE_URL_CONTACTS, BASE_URL_USERS, LOGIN } from '../ConstantLinks';
+import { BASE_URL_USERS, LOGIN } from '../ConstantLinks';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [data, setData] = useState();
   const accessToken = useSelector((state) => state?.accessToken)
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const Home = () => {
 
         const result = await response.json();
         setData(result)
-        console.log('Response data:', result);
+        setLoading(false);
       } catch (error) {
         console.error('Error:', error.message);
         dispatch({
@@ -42,6 +42,12 @@ const Home = () => {
 
   
   return (
+    <React.Fragment>
+      {loading ? (
+        <div className="flex items-center justify-center min-h-[80vh]">
+        <p className='font-bold text-2xl'>Loading...</p>
+      </div>
+      ) :
     <div className='mx-auto max-w-7xl py-10 min-h-[80vh] px-5'>
       <div className="sm:px-0">
         <h3 className="text-2xl font-bold leading-7">Profile</h3>
@@ -63,10 +69,8 @@ const Home = () => {
           </div>
         </dl>
       </div>
-          {/* <div className='flex justify-center items-center my-10'>
-          <button type='button' onClick={handleLogout} className='flex justify-center items-center py-2 px-4 rounded-2xl bg-blue-300 w-52 cursor-pointer text-base font-medium'>{'Logout'}</button>
-          </div> */}
-    </div>
+    </div>}
+    </React.Fragment>
   )
 }
 

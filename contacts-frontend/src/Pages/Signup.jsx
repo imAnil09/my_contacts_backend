@@ -1,18 +1,22 @@
 import React, { useState } from 'react'
 import { BASE_URL_USERS, HOME, LOGIN } from '../ConstantLinks';
 import {Link, useNavigate} from 'react-router-dom';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const style = "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
   
   const handleSubmit = (event) => {
     event.preventDefault();
-  
+
+    setLoading(true);
   
     fetch(`${BASE_URL_USERS}/register`, {
       method: 'POST',
@@ -32,12 +36,9 @@ const Signup = () => {
         return response.json();
       })
       .then((result) => {
-        console.log('Response data:', result);
-        // localStorage.setItem('accessToken', result?.accessToken)
-        // localStorage.setItem('accessToken', JSON.stringify(result?.accessToken));
+        setLoading(false);
         scrollTo(0, 0);
         navigate(LOGIN);
-        // Handle successful Signup, store token, redirect, etc.
       })
       .catch((error) => {
         console.error('Error:', error.message);
@@ -69,8 +70,6 @@ const Signup = () => {
         </div>
       </div>
     
-
-      
       <div>
           <label for="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
         <div className="mt-2">
@@ -83,7 +82,7 @@ const Signup = () => {
           type="submit"
           className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Sign Up
+          {loading ? <AiOutlineLoading3Quarters className='animate-spin' size={'18px'} /> : 'Sign Up'}
         </button>
       </div>
     </form>

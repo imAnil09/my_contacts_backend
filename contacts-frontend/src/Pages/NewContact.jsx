@@ -18,10 +18,6 @@ export default function NewContact() {
     const handleSubmit = async (event) => {
         event.preventDefault();
     
-        console.log({email, mobile, name}, "useData")
-
-
-    
         try {
           const response = await fetch(`${BASE_URL_CONTACTS}/`, {
             method: 'POST',
@@ -41,7 +37,6 @@ export default function NewContact() {
           }
           
           const result = await response.json();
-          console.log('Response data:', result);
           toast.success('Sucessfully created contact')
           navigate(CONTACTS)
         } catch (error) {
