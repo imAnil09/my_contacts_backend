@@ -8,27 +8,7 @@ const app = express();
 
 connectDb();
 
-const allowedOrigins = [
-  "http://localhost:5173", // for local dev
-  "https://my-contacts-mern-project.vercel.app" // your deployed frontend
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps, Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
-
-// Handle preflight requests explicitly
-app.options("*", cors());
+app.use(cors({ origin: "*" }));
 
 const PORT = process.env.PORT || 5000;
 
