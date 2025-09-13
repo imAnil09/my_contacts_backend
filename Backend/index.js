@@ -9,7 +9,11 @@ const app = express();
 connectDb();
 
 // Use the cors middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://my-contacts-frontend.vercel.app",
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true
+}));
 
 const PORT = process.env.PORT || 5005;
 
