@@ -8,7 +8,8 @@ const app = express();
 
 connectDb();
 
-app.use(cors({ origin: "*" }));
+// Use the cors middleware
+app.use(cors({ origin: "https://my-contacts-mern-project.vercel.app/" }));
 
 const PORT = process.env.PORT || 5005;
 
