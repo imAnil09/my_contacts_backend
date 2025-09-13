@@ -8,9 +8,13 @@ const app = express();
 
 connectDb();
 
-// Use the cors middleware
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://my-contacts-frontend.vercel.app"
+];
+
 app.use(cors({
-  origin: "https://my-contacts-frontend.vercel.app",
+  origin: allowedOrigins,
   methods: "GET,POST,PUT,DELETE",
   credentials: true
 }));
