@@ -8,16 +8,7 @@ const app = express();
 
 connectDb();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://my-contacts-frontend.vercel.app"
-];
-
-app.use(cors({
-  origin: allowedOrigins,
-  methods: "GET,POST,PUT,DELETE",
-  credentials: true
-}));
+app.use(cors({ origin: "*" }));
 
 const PORT = process.env.PORT || 5005;
 
