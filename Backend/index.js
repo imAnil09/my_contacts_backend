@@ -42,6 +42,9 @@ app.options("*", cors({
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
+app.get('/', (req, res) => {
+  res.json({ message: "working" })
+})
 app.use("/api/contacts", require("./routes/contactRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use(errorHandler);
