@@ -1,5 +1,5 @@
-export const BASE_URL_CONTACTS = 'https://my-contacts-backend.vercel.app/api/contacts'
-export const BASE_URL_USERS = 'https://my-contacts-backend.vercel.app/api/users'
+export const BASE_URL_CONTACTS = 'https://my-contacts-backend-mik6jhoif-imanil09s-projects.vercel.app/api/contacts'
+export const BASE_URL_USERS = 'https://my-contacts-backend-mik6jhoif-imanil09s-projects.vercel.app/api/users'
 export const LOGIN = '/login';
 export const SIGNUP = '/signup';
 export const HOME = '/';
